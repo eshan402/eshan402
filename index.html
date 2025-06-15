@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>I’m Sorry, Shraddha 💔</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(145deg, #0f0c29, #302b63, #24243e);
+      overflow: hidden;
+      position: relative;
+      min-height: 100vh;
+      color: white;
+    }
+
+    .vfx-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4em;
+      text-align: center;
+      margin-top: 60px;
+      color: #ff4d6d;
+      text-shadow:
+        0 0 5px #ff4d6d,
+        0 0 10px #ff4d6d,
+        0 0 20px #ff1a4d,
+        0 0 40px #ff1a4d,
+        0 0 80px #ff66a3;
+      -webkit-text-stroke: 1px #ffffffcc;
+      text-stroke: 1px #ffffffcc;
+      position: relative;
+      z-index: 2;
+      animation: heartbeat 1.5s infinite ease-in-out, glowPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.3); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.3); }
+      70% { transform: scale(1); }
+    }
+
+    @keyframes glowPulse {
+      0% {
+        text-shadow: 0 0 5px #ff4d6d, 0 0 10px #ff4d6d, 0 0 20px #ff1a4d;
+      }
+      50% {
+        text-shadow: 0 0 10px #ff66a3, 0 0 20px #ff1a4d, 0 0 30px #ff1a4d;
+      }
+      100% {
+        text-shadow: 0 0 5px #ff4d6d, 0 0 10px #ff4d6d, 0 0 20px #ff1a4d;
+      }
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 500px;
+      margin: 30px auto;
+      box-shadow: 0 0 30px rgba(255, 105, 135, 0.3);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: #ff66cc;
+      text-shadow: 0 0 10px #ff66cc, 0 0 25px #ff99dd;
+      animation: pulse 2s infinite alternate;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    @keyframes pulse {
+      0% { text-shadow: 0 0 5px #ff33cc; }
+      100% { text-shadow: 0 0 20px #ff99dd; }
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #ccc;
+    }
+
+    button {
+      width: 100%;
+      background: #ff4d6d;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #ff1a4d;
+      box-shadow: 0 0 20px #ff4d6d;
+      transform: scale(1.08);
+    }
+
+    .footer {
+      text-align: center;
+      color: #aaa;
+      margin-top: 40px;
+      font-size: 1.6em;
+      opacity: 0;
+      position: relative;
+      z-index: 2;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    #emojis {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.5;
+      filter: drop-shadow(0 0 4px white);
+    }
+
+    .letter-box {
+      max-width: 600px;
+      margin: 30px auto 10px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.8em;
+      line-height: 1.5;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      color: #fff;
+    }
+
+    .typing-text::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Flying Emojis -->
+  <div id="emojis"></div>
+
+  <!-- Headline -->
+  <h1 class="vfx-title">Shraddha, I’m So Sorry 💔</h1>
+
+  <!-- Typing Letter -->
+  <div class="letter-box">
+    <div class="typing-text" id="typing"></div>
+  </div>
+
+  <!-- Message Form -->
+  <div class="form-container">
+    <h2>Send Me a Reply 💌</h2>
+    <form action="https://formspree.io/f/xnnvvvre" method="POST">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <textarea name="message" rows="5" placeholder="Your Message..." required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">— Yours forever, Bublu 💕</div>
+
+  <!-- JS Animations -->
+  <script>
+    gsap.to(".form-container", {delay: 1, duration: 1, opacity: 1, y: -20});
+    gsap.to(".footer", {delay: 2, duration: 1, opacity: 1});
+
+    const emojiList = ['💖','💌','❤️','🥺','🐻','🌸','💕','😢'];
+    const emojiContainer = document.getElementById("emojis");
+
+    function createEmoji() {
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.innerText = emojiList[Math.floor(Math.random() * emojiList.length)];
+      emoji.style.left = Math.random() * 100 + "vw";
+      emoji.style.top = Math.random() * 10 + 90 + "vh";
+      emoji.style.fontSize = (Math.random() * 20 + 20) + "px";
+      emoji.style.transform = `rotate(${Math.random() * 360}deg) scale(${Math.random() * 0.5 + 0.75})`;
+      emojiContainer.appendChild(emoji);
+
+      gsap.to(emoji, {
+        y: -window.innerHeight - 100,
+        x: "+=" + (Math.random() * 100 - 50),
+        duration: 10 + Math.random() * 5,
+        ease: "linear",
+        onComplete: () => emoji.remove()
+      });
+    }
+
+    setInterval(createEmoji, 300);
+
+    const text = `Dear Shraddha,
+
+I miss your smile every day.
+I'm sorry for the pain I caused.
+My heart still beats for you.
+Please forgive me. 💔`;
+
+    const typingElement = document.getElementById("typing");
+    let idx = 0;
+
+    function typeText() {
+      if (idx < text.length) {
+        typingElement.innerHTML += text.charAt(idx) === '\n' ? '<br>' : text.charAt(idx);
+        idx++;
+        setTimeout(typeText, 60);
+      }
+    }
+
+    setTimeout(typeText, 500);
+  </script>
+</body>
+</html>
