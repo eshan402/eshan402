@@ -3,11 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>I’m Sorry, Shraddha 💔</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Open+Sans&display=swap" rel="stylesheet" />
 
   <!-- GSAP Animation Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -185,6 +185,103 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+
+    /* Glowing Heart Link Styled as Heart Shape */
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+    .heart-button {
+      position: relative;
+      display: inline-block;
+      width: 120px;
+      height: 110px;
+      background: #ff4d6d;
+      cursor: pointer;
+      text-align: center;
+      color: white;
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.5em;
+      line-height: 110px;
+      text-decoration: none;
+      user-select: none;
+      box-shadow:
+        0 0 15px #ff99cc,
+        0 0 30px #ff66cc,
+        0 0 40px #ff66cc,
+        0 0 60px #ff33cc;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: beatHeart 1.2s infinite ease-in-out, glowHeart 2.5s infinite ease-in-out;
+      margin: 0 auto;
+    }
+
+    /* Create the heart shape with before and after */
+    .heart-button::before,
+    .heart-button::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 110px;
+      background: #ff4d6d;
+      border-radius: 60px 60px 0 0;
+      top: 0;
+      left: 0;
+      box-shadow:
+        0 0 15px #ff99cc,
+        0 0 30px #ff66cc,
+        0 0 40px #ff66cc,
+        0 0 60px #ff33cc;
+      transition: box-shadow 0.3s ease;
+      z-index: 0;
+    }
+
+    .heart-button::before {
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
+    }
+
+    .heart-button::after {
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    /* Center the text inside the heart */
+    .heart-button span {
+      position: relative;
+      z-index: 1;
+      display: block;
+      user-select: none;
+    }
+
+    .heart-button:hover {
+      transform: scale(1.15);
+      box-shadow:
+        0 0 25px #ff99cc,
+        0 0 45px #ff66cc,
+        0 0 60px #ff66cc,
+        0 0 100px #ff33cc;
+    }
+
+    @keyframes beatHeart {
+      0%, 100% { transform: scale(1); }
+      30% { transform: scale(1.2); }
+      60% { transform: scale(0.95); }
+    }
+
+    @keyframes glowHeart {
+      0%, 100% {
+        box-shadow:
+          0 0 15px #ff99cc,
+          0 0 30px #ff66cc,
+          0 0 40px #ff66cc,
+          0 0 60px #ff33cc;
+      }
+      50% {
+        box-shadow:
+          0 0 30px #ff66cc,
+          0 0 50px #ff99cc,
+          0 0 60px #ff99cc,
+          0 0 100px #ff33cc;
+      }
+    }
   </style>
 </head>
 <body>
@@ -210,13 +307,18 @@
     </form>
   </div>
 
+  <!-- Heart Link Button with "Enter My Heart" -->
+  <div style="text-align: center; margin: 40px 0;">
+    <a href="iloveu.html" class="heart-button"><span>Enter My Heart ❤️</span></a>
+  </div>
+
   <!-- Footer -->
   <div class="footer">— Yours forever, Bublu 💕</div>
 
   <!-- JS Animations -->
   <script>
-    gsap.to(".form-container", {delay: 1, duration: 1, opacity: 1, y: -20});
-    gsap.to(".footer", {delay: 2, duration: 1, opacity: 1});
+    gsap.to(".form-container", { delay: 1, duration: 1, opacity: 1, y: -20 });
+    gsap.to(".footer", { delay: 2, duration: 1, opacity: 1 });
 
     const emojiList = ['💖','💌','❤️','🥺','🐻','🌸','💕','😢'];
     const emojiContainer = document.getElementById("emojis");
