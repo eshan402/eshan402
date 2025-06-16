@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Catch My Love 💘</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap" rel="stylesheet">
+  <meta name="touch-action" content="manipulation">
   <style>
     body {
       margin: 0;
@@ -49,7 +49,9 @@
 
     .touch-zone {
       flex: 1;
-      height: 100px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.05);
+      touch-action: none;
     }
 
     .nav-link {
@@ -70,7 +72,6 @@
       transform: scale(1.1);
     }
 
-    /* Envelope */
     .envelope-container {
       position: fixed;
       right: 30px;
@@ -162,7 +163,6 @@
 
   <a href="index.html" class="nav-link">💖 Return Back 💖</a>
 
-  <!-- Envelope -->
   <div class="envelope-container" onclick="goToLovePage()">
     <div class="envelope-flap"></div>
     <div class="envelope-body">
@@ -294,10 +294,33 @@
       if (e.key === "ArrowRight") moveRight = false;
     });
 
-    document.getElementById("left-touch").addEventListener("touchstart", e => { e.preventDefault(); moveLeft = true; });
-    document.getElementById("left-touch").addEventListener("touchend", e => { e.preventDefault(); moveLeft = false; });
-    document.getElementById("right-touch").addEventListener("touchstart", e => { e.preventDefault(); moveRight = true; });
-    document.getElementById("right-touch").addEventListener("touchend", e => { e.preventDefault(); moveRight = false; });
+    let leftInterval, rightInterval;
+
+    document.getElementById("left-touch").addEventListener("touchstart", e => {
+      e.preventDefault();
+      moveLeft = true;
+      clearInterval(rightInterval);
+      leftInterval = setInterval(() => moveLeft = true, 16);
+    });
+
+    document.getElementById("left-touch").addEventListener("touchend", e => {
+      e.preventDefault();
+      moveLeft = false;
+      clearInterval(leftInterval);
+    });
+
+    document.getElementById("right-touch").addEventListener("touchstart", e => {
+      e.preventDefault();
+      moveRight = true;
+      clearInterval(leftInterval);
+      rightInterval = setInterval(() => moveRight = true, 16);
+    });
+
+    document.getElementById("right-touch").addEventListener("touchend", e => {
+      e.preventDefault();
+      moveRight = false;
+      clearInterval(rightInterval);
+    });
 
     function goToLovePage() {
       window.location.href = "iloveu.html";
