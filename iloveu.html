@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Catch My Love 💘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #1b1b2f, #3a3a60);
+      overflow: hidden;
+      font-family: 'Great Vibes', cursive;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 4em;
+      margin: 20px;
+      font-family: 'Pacifico', cursive;
+      color: #fff;
+      text-shadow: 0 0 10px #ff99cc, 0 0 20px #ff66cc, 0 0 30px #ff33aa;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff; }
+      to { text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff66cc; }
+    }
+
+    canvas {
+      background: transparent;
+      display: block;
+      margin: 0 auto;
+      border: 2px solid white;
+      border-radius: 20px;
+    }
+
+    .touch-area {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      z-index: 10;
+    }
+
+    .touch-zone {
+      flex: 1;
+      height: 100px;
+    }
+
+    .nav-link {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 12px 28px;
+      color: white;
+      background: linear-gradient(to right, #ff66cc, #ff99ff);
+      text-decoration: none;
+      border-radius: 30px;
+      font-family: 'Pacifico', cursive;
+      font-size: 1.3em;
+      box-shadow: 0 0 10px #ff99cc, 0 0 20px #ff66cc;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+      transform: scale(1.1);
+    }
+
+    /* Envelope */
+    .envelope-container {
+      position: fixed;
+      right: 30px;
+      bottom: 40%;
+      transform: translateY(50%);
+      width: 200px;
+      height: 160px;
+      z-index: 20;
+      cursor: pointer;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .envelope-body {
+      position: relative;
+      width: 100%;
+      height: 70%;
+      background: #fff;
+      border: 3px solid #ff66cc;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(255, 102, 204, 0.6);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: -50%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffccdd;
+      clip-path: polygon(0 100%, 50% 0%, 100% 100%);
+      transform-origin: top center;
+      transition: transform 0.5s;
+      z-index: 2;
+    }
+
+    .envelope-container:hover .envelope-flap {
+      transform: rotateX(180deg);
+    }
+
+    .envelope-heart {
+      position: absolute;
+      top: 25%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 36px;
+      z-index: 1;
+      animation: beat 1s infinite;
+    }
+
+    .click-label {
+      position: absolute;
+      top: 120%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 26px;
+      color: #ff66cc;
+      font-family: 'Pacifico', cursive;
+      text-shadow: 0 0 5px white, 0 0 15px #ff99cc;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1) translateX(-50%); }
+      50% { transform: scale(1.3) translateX(-50%); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.1); }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Catch My Love 💘</h1>
+  <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+  <div class="touch-area">
+    <div class="touch-zone" id="left-touch"></div>
+    <div class="touch-zone" id="right-touch"></div>
+  </div>
+
+  <a href="index.html" class="nav-link">💖 Return Back 💖</a>
+
+  <!-- Envelope -->
+  <div class="envelope-container" onclick="goToLovePage()">
+    <div class="envelope-flap"></div>
+    <div class="envelope-body">
+      <div class="envelope-heart">💌</div>
+    </div>
+    <div class="click-label">Click me</div>
+  </div>
+
+  <audio id="catch-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c1a7603c71.mp3?filename=video-game-win-144751.mp3"></audio>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const catchSound = document.getElementById('catch-sound');
+
+    let score = 0;
+    let moveLeft = false, moveRight = false;
+
+    const player = {
+      x: canvas.width / 2 - 20,
+      y: canvas.height - 60,
+      size: 40,
+      speed: 5
+    };
+
+    const hearts = [];
+    const stars = [];
+
+    function drawPlayer() {
+      ctx.font = player.size + "px serif";
+      ctx.fillText("🫴🏻", player.x, player.y + player.size);
+    }
+
+    function drawHeart(h) {
+      ctx.font = h.size + "px serif";
+      ctx.globalAlpha = h.alpha;
+      ctx.fillText("💖", h.x, h.y);
+      ctx.globalAlpha = 1;
+    }
+
+    function drawStar(s) {
+      ctx.fillStyle = "white";
+      ctx.globalAlpha = s.alpha;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    function spawnHeart() {
+      hearts.push({
+        x: Math.random() * (canvas.width - 30),
+        y: 0,
+        speed: 2 + Math.random() * 3,
+        size: 30 + Math.random() * 10,
+        alpha: 1
+      });
+    }
+
+    function spawnStar() {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2,
+        speed: 0.5 + Math.random(),
+        alpha: Math.random()
+      });
+    }
+
+    for (let i = 0; i < 50; i++) spawnStar();
+
+    function update() {
+      if (moveLeft) player.x -= player.speed;
+      if (moveRight) player.x += player.speed;
+      player.x = Math.max(0, Math.min(canvas.width - player.size, player.x));
+
+      stars.forEach(s => {
+        s.y += s.speed;
+        if (s.y > canvas.height) {
+          s.y = 0;
+          s.x = Math.random() * canvas.width;
+        }
+      });
+
+      hearts.forEach((h, i) => {
+        h.y += h.speed;
+        if (
+          h.y + h.size > player.y &&
+          h.x + h.size / 2 > player.x &&
+          h.x < player.x + player.size
+        ) {
+          catchSound.currentTime = 0;
+          catchSound.play();
+          h.alpha = 0;
+          hearts.splice(i, 1);
+          score++;
+        } else if (h.y > canvas.height) {
+          hearts.splice(i, 1);
+        }
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(drawStar);
+      hearts.forEach(drawHeart);
+      drawPlayer();
+
+      ctx.fillStyle = "#fff";
+      ctx.font = "20px 'Great Vibes', cursive";
+      ctx.fillText("Score: " + score, 10, 30);
+    }
+
+    function gameLoop() {
+      update();
+      draw();
+      requestAnimationFrame(gameLoop);
+    }
+
+    setInterval(spawnHeart, 800);
+    gameLoop();
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") moveLeft = true;
+      if (e.key === "ArrowRight") moveRight = true;
+    });
+    document.addEventListener("keyup", e => {
+      if (e.key === "ArrowLeft") moveLeft = false;
+      if (e.key === "ArrowRight") moveRight = false;
+    });
+
+    document.getElementById("left-touch").addEventListener("touchstart", e => { e.preventDefault(); moveLeft = true; });
+    document.getElementById("left-touch").addEventListener("touchend", e => { e.preventDefault(); moveLeft = false; });
+    document.getElementById("right-touch").addEventListener("touchstart", e => { e.preventDefault(); moveRight = true; });
+    document.getElementById("right-touch").addEventListener("touchend", e => { e.preventDefault(); moveRight = false; });
+
+    function goToLovePage() {
+      window.location.href = "iloveu.html";
+    }
+  </script>
+</body>
+</html>
